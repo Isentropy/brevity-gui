@@ -3,13 +3,24 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MetaMaskProvider } from '@metamask/sdk-react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+        <MetaMaskProvider
+      sdkOptions={{
+        dappMetadata: {
+          name: "Example React Dapp",
+          url: window.location.href,
+        }
+        // Other options.
+      }}
+    >
     <App />
+    </MetaMaskProvider>
   </React.StrictMode>
 );
 
