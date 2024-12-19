@@ -27,6 +27,13 @@ function App() {
   const [gasEstimate, setGasEstimate] = useState<bigint>();
   
   const { sdk, connected, connecting, chainId } = useSDK();
+  
+  const sendTx = async () => {
+    interpreter.run(transpiledProgram!).then((tx) => {
+
+    })
+  }
+
   const transpile = async () => {
     try {
       setTranspiledProgram(undefined)
@@ -79,7 +86,7 @@ function App() {
       <button style={{ padding: 10, margin: 10 }} onClick={transpile}>
         Transpile
       </button> 
-      <button disabled={account && transpiledProgram ? false : true} style={{ padding: 10, margin: 10 }} onClick={connect}>
+      <button disabled={account && transpiledProgram ? false : true} style={{ padding: 10, margin: 10 }} onClick={sendTx}>
         Send TX
       </button> 
       {transpiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}

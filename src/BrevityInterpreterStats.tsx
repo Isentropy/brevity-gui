@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { BrevityInterpreter, IERC20, OwnedBrevityInterpreter } from "./brevity/typechain-types"
 import BlockExplorerLink from "./BlockExplorerLink";
-import { dataSlice, Filter, FunctionFragment, id, toBeHex } from "ethers";
+import { dataSlice, Filter, FunctionFragment, id, toBeHex, ZeroAddress } from "ethers";
+import TokenBalance from "./TokenBalance";
 
 function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
     const [address, setAddress] = useState<string>();
-    const [nativeTokenBal, setNativeTokenBal] = useState<bigint>();
     const [version, setVersion] = useState<bigint>();
     const [owner, setOwner] = useState<string>();
     const [uniqueTokens, setUniqueTokens] = useState<string[]>();
@@ -18,9 +18,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
     })
     interpreter.getAddress().then((a)=> {
         setAddress(a)
-        interpreter.runner!.provider!.getBalance(a).then((bal) => {
-            setNativeTokenBal(bal)
-        })
+
         const filter : Filter = {
             fromBlock: 0,
             toBlock:'latest',
@@ -30,7 +28,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
         if(!uniqueTokens)
         interpreter.runner!.provider!.getLogs(filter).then((logs) => {
             console.log(`logs ${logs.length}`)
-            setUniqueTokens([...new Set(logs.map((log) => { return dataSlice(log.topics[2], 12) }))])
+            setUniqueTokens([ZeroAddress, ...new Set(logs.map((log) => { return log.address }))])
         })
     })
     return <div>
@@ -50,16 +48,13 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
             Owner: {BlockExplorerLink(owner)}
             </div>
         )}
-        {nativeTokenBal?.toString() && (
-            <div>
-            Native Token Balance: {nativeTokenBal.toString()}
-            </div>
+        <h5> Token Holdings </h5>
+        {uniqueTokens && address && interpreter && (
+            uniqueTokens.map((tokenAddress)=>{
+                return <TokenBalance tokenAddress={tokenAddress} holderAddress={address} provider={interpreter.runner!.provider!}></TokenBalance>
+            })
         )}
-        {uniqueTokens && (
-            <div>
-            Unique tokens: {JSON.stringify(uniqueTokens)}
-            </div>
-        )}
+        
     </div>
 }
 
