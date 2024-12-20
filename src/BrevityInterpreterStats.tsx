@@ -49,11 +49,30 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
             </div>
         )}
         <h5> Token Holdings </h5>
-        {uniqueTokens && address && interpreter && (
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                Token Name
+              </th>
+              <th>
+                Balance
+              </th>
+              <th>
+                Withdraw To Owner
+              </th>
+              <th>
+                Withdraw Amount
+              </th>
+            </tr>
+            {uniqueTokens && address && interpreter && (
             uniqueTokens.map((tokenAddress)=>{
-                return <TokenBalance tokenAddress={tokenAddress} holderAddress={address} provider={interpreter.runner!.provider!}></TokenBalance>
+                return <TokenBalance tokenAddress={tokenAddress} holderAddress={address} interpreter={interpreter} withdrawToAddress={owner}></TokenBalance>
             })
         )}
+          </tbody>
+        </table>
+
         
     </div>
 }

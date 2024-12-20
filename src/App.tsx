@@ -8,8 +8,8 @@ import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from './brevi
 import BlockExplorerLink from './BlockExplorerLink';
 import BrevityInterpreterStats from './BrevityInterpreterStats';
 const QUERY_PARAM_BREVITY_ADDRESS = 'b'
-const DEFAULT_BREVITY_INTERPRETER = '0x94714f82F6B9e6479500656dC07Bd358487834e4'
-
+const DEFAULT_BREVITY_INTERPRETER = '0xD47a39886638936a1e7c091101Fca97bEFf50Ae2'
+// 0xD47a39886638936a1e7c091101Fca97bEFf50Ae2
 interface Window {
   ethereum: any
   location: any
@@ -23,32 +23,32 @@ function App() {
   const defaultProvider = new JsonRpcProvider('https://rpc.gnosischain.com/');
   const [interpreter, setInterpreter] = useState<OwnedBrevityInterpreter>(OwnedBrevityInterpreter__factory.connect(interpreterAddress, defaultProvider));
   const [account, setAccount] = useState<string>();
-  const [transpiledProgram, setTranspiledProgram] = useState<BrevityParserOutput>();
+  const [compiledProgram, setCompiledProgram] = useState<BrevityParserOutput>();
   const [gasEstimate, setGasEstimate] = useState<bigint>();
   
   const { sdk, connected, connecting, chainId } = useSDK();
   
   const sendTx = async () => {
-    interpreter.run(transpiledProgram!).then((tx) => {
-
+    interpreter.run(compiledProgram!).then((tx) => {
+        //window.location.reload()
     })
   }
 
-  const transpile = async () => {
+  const compile = async () => {
     try {
-      setTranspiledProgram(undefined)
+      setCompiledProgram(undefined)
       const config : BrevityParserConfig = {
         maxMem: 100
       }
-      const transpiler = new BrevityParser(config)
+      const compiler = new BrevityParser(config)
       const script = (document.getElementById("brevScript")! as HTMLTextAreaElement).value
-      const transpiled = transpiler.parseBrevityScript(script)
-      interpreter.run.estimateGas(transpiled).then((estimate) => {
+      const compiled = compiler.parseBrevityScript(script)
+      interpreter.run.estimateGas(compiled).then((estimate) => {
         setGasEstimate(estimate)
       })
-      setTranspiledProgram(transpiled)
+      setCompiledProgram(compiled)
     } catch (err) {
-      console.warn("Transpile Error:", err);
+      console.warn("Compile Error:", err);
     }
   }
   const connect = async () => {
@@ -83,13 +83,13 @@ function App() {
       <br></br>
       <textarea id="brevScript" cols={80} rows={20}></textarea>
       <br></br>
-      <button style={{ padding: 10, margin: 10 }} onClick={transpile}>
-        Transpile
-      </button> 
-      <button disabled={account && transpiledProgram ? false : true} style={{ padding: 10, margin: 10 }} onClick={sendTx}>
+      <button style={{ padding: 10, margin: 10 }} onClick={compile}>
+        Compile
+      </button>
+      <button disabled={account && compiledProgram ? false : true} style={{ padding: 10, margin: 10 }} onClick={sendTx}>
         Send TX
       </button> 
-      {transpiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}
+      {compiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}
       {interpreter && BrevityInterpreterStats(interpreter)}
 
     </div>
