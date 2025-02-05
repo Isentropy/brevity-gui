@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BrevityInterpreter, IERC20, OwnedBrevityInterpreter } from "./brevity/typechain-types"
+import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types"
 import BlockExplorerLink from "./BlockExplorerLink";
-import { dataSlice, Filter, FunctionFragment, id, toBeHex, ZeroAddress } from "ethers";
+import { Filter, id, toBeHex, ZeroAddress } from "ethers";
 import TokenBalance from "./TokenBalance";
 
 function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
@@ -10,13 +10,13 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
     const [owner, setOwner] = useState<string>();
     const [uniqueTokens, setUniqueTokens] = useState<string[]>();
 
-    interpreter.version().then((v)=>{
+    if(!version) interpreter.version().then((v)=>{
         setVersion(v)
     })
-    interpreter.owner().then((o)=>{
+    if(!owner) interpreter.owner().then((o)=>{
         setOwner(o)
     })
-    interpreter.getAddress().then((a)=> {
+    if(!address) interpreter.getAddress().then((a)=> {
         setAddress(a)
 
         const filter : Filter = {
@@ -31,8 +31,8 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
             setUniqueTokens([ZeroAddress, ...new Set(logs.map((log) => { return log.address }))])
         })
     })
-    return <div>
-        <h3>Brevity Interpreter Info</h3>
+    return <div className="brevityStats">
+        <h3>Brevity Interpreter Info:</h3>
         {address && (
             <div>
             Address: {BlockExplorerLink(address)}
@@ -48,7 +48,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
             Owner: {BlockExplorerLink(owner)}
             </div>
         )}
-        <h5> Token Holdings </h5>
+        <h4>Token Holdings:</h4>
         <table>
           <tbody>
             <tr>
