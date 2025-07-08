@@ -8,6 +8,7 @@ import BrevityInterpreterStats from './BrevityInterpreterStats';
 import Runner from './Runner';
 import { Script } from 'vm';
 import ScriptSelector, { ScriptAndDesc } from './ScriptSelector';
+import { SCRIPTS } from './templateScripts';
 const QUERY_PARAM_BREVITY_ADDRESS = 'b'
 const DEFAULT_BREVITY_INTERPRETER = '0xD47a39886638936a1e7c091101Fca97bEFf50Ae2'
 
@@ -17,16 +18,6 @@ interface Window {
 }
 declare var window: Window
 
-const SCRIPTS: ScriptAndDesc[] = [
-    {
-        desc: "script1",
-        script: "//heresf ssdf sdf sdf sf sf asfsf dfsdf fd \n//yoyoy\n"
-    },
-    {
-        desc: "script2",
-        script: "//22heresf ssdf sdf sdf sf sf asfsf dfsdf fd \n//yoyoy\n"
-    },
-]
 
 function App() {
 
@@ -37,7 +28,7 @@ function App() {
 
   const [interpreter, setInterpreter] = useState<OwnedBrevityInterpreter>(OwnedBrevityInterpreter__factory.connect(interpreterAddress, defaultProvider));
   const [account, setAccount] = useState<string>();
-  const [script, setScript] = useState<string>("// enter script\n");
+  const [script, setScript] = useState<string>(SCRIPTS[0].script);
 
   const { sdk, connected, connecting, chainId } = useSDK();
   
@@ -59,7 +50,7 @@ function App() {
 
   return (
     <div className="brevityGui">
-      <h3> DEMO ONLY. UNAUTHORIZED USE PROHIBITED </h3>
+      <h3> Brevity Demo. USE AT YOUR OWN RISK! </h3>
       <button style={{ padding: 10, margin: 10 }} onClick={connect}>
         Connect MetaMask
       </button> 

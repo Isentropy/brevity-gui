@@ -11,6 +11,7 @@ interface Props {
 function Runner(p: Props) {
     const [compiledProgram, setCompiledProgram] = useState<BrevityParserOutput>();
     const [gasEstimate, setGasEstimate] = useState<bigint>();
+    const [compileErr, setCompileErr] = useState<any>();
 
     const sendTx = async () => {
         p.interpreter.run(compiledProgram!).then((tx) => {
@@ -39,8 +40,10 @@ function Runner(p: Props) {
                 setGasEstimate(estimate)
             })
             setCompiledProgram(compiled)
+            setCompileErr("Successfully Compiled")
         } catch (err) {
             console.warn("Compile Error:", err);
+            setCompileErr(err)
         }
     }
 
@@ -59,6 +62,9 @@ function Runner(p: Props) {
             Send TX
         </button>
         {compiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}
+        <h3>Error Console: </h3>
+        <textarea readOnly={true} cols={80} value={compileErr}></textarea>
+
     </div>)
 }
 
