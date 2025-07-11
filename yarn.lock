@@ -1302,9 +1302,9 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@isentropy/brevity-lang@github:Isentropy/brevity#345587ab28ec0e58c1effe7bd0b745fca1d816a2":
+"@isentropy/brevity-lang@github:Isentropy/brevity#249d024b929b80b790032f1f427465b5c85c2b19":
   version "0.0.1"
-  resolved "https://codeload.github.com/Isentropy/brevity/tar.gz/345587ab28ec0e58c1effe7bd0b745fca1d816a2"
+  resolved "https://codeload.github.com/Isentropy/brevity/tar.gz/249d024b929b80b790032f1f427465b5c85c2b19"
   dependencies:
     "@openzeppelin/contracts" "^5.0.2"
     ethers "^6.13.4"

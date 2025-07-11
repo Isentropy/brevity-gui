@@ -1,14 +1,8 @@
 import { ScriptAndDesc } from "./ScriptSelector";
 
-export const SCRIPTS: ScriptAndDesc[] = [
-    {
-        desc: "empty",
-        script: "// Welcome to Brevity v1. Type your script here: \n"
-    },
-    {
-        desc: "tutorialComments",
-script: 
-`/*
+
+
+const TUTORIAL = `/*
 Welcome to Brevity v1. Remember: The only data type is byte32! Example commands:
 
 Define a pre-processor symbol. These are string substitions:
@@ -42,42 +36,62 @@ if(!(tokenOwner == this)) return
 
 */
 `
-    },
-]
 
+const CORE=`approve := approve(address,uint256)
+balanceOf := balanceOf(address)
+ownerOf := ownerOf(uint256)
+usdc := 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
+withdrawAll := withdrawAll(address)
+`
 
-/*
-// for TESTING
-// convert half of msg.value into USDC, then add liquidity with the other with USDC 
-
+const UNISWAP_CONSTANTS=`
 uniswapRouter := 0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45
 uniswapPositionManager := 0xC36442b4a4522E871399CD717aBDD847Ab11FE88
 weth := 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
-usdc := 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
-exactInputSingle := exactInputSingle((address,address,uint24,address,uint256,uint256,uint160))
-approve := approve(address,uint256)
 mint := mint((address,address,uint24,int24,int24,uint256,uint256,uint256,uint256,address,uint256))
-fee := 3000
-balance-887220Of := balanceOf(address)
-ownerOf := ownerOf(uint256)
-tickUpper := 887220
-//  in 32byte 2s compliment
-tickLower := 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF2764C
-//tickLower := 0x0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF2764C
+exactInputSingle := exactInputSingle((address,address,uint24,address,uint256,uint256,uint160))
+`
 
+const UNISWAP_ADD_LIQUIDITY =`
+// convert half of msg.value into USDC, then add liquidity with the other with USDC 
+
+// INPUTS:
+//toToken := usdc
+
+tickUpper := 887220
+tickLower := -887220
+fee := 3000
 
 CALL {"value": "msg.value"} weth.deposit()()
+
 var wethAmt = STATICCALL weth.balanceOf(this)
 // convert half to USDC and put half as liquidity
 wethAmt /= 2
 CALL weth.approve(uniswapRouter, wethAmt)
-var usdcBal = CALL uniswapRouter.exactInputSingle(weth, usdc, fee, this, wethAmt, 1, 0)
+var toTokenBal = CALL uniswapRouter.exactInputSingle(weth, toToken, fee, this, wethAmt, 1, 0)
 CALL weth.approve(uniswapPositionManager, wethAmt)
-CALL usdc.approve(uniswapPositionManager, usdcBal)
-var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(usdc, weth, fee, tickLower, tickUpper, usdcBal, wethAmt, 0, 0, this, block.timestamp)
+CALL toToken.approve(uniswapPositionManager, toTokenBal)
+var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(toToken, weth, fee, tickLower, tickUpper, toTokenBal, wethAmt, 0, 0, this, block.timestamp)
 var tokenOwner = STATICCALL uniswapPositionManager.ownerOf(tokenId)
-// equivalent to if(!=) revert
 if(!(tokenOwner == this)) revert
+`
+export const SCRIPTS: ScriptAndDesc[] = [
+    {
+        desc: "core",
+        script: CORE + "\n// Welcome to Brevity v1. Type your script here: \n"
+    },
+    {
+        desc: "tutorial comments",
+        script: TUTORIAL
 
-dumpMem
-*/
+        },
+    {
+        desc: "uniswap constants",
+        script: UNISWAP_CONSTANTS
+    },
+
+    {
+        desc: "uniswap add liquidity",
+        script: UNISWAP_ADD_LIQUIDITY
+    }
+]

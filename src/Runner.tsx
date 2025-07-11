@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from "@isentropy/brevity-lang/tslib/brevityParser";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types";
+import { SCRIPTS } from "./templateScripts";
 
 interface Props {
     interpreter: OwnedBrevityInterpreter
@@ -16,16 +17,23 @@ function Runner(p: Props) {
     const sendTx = async () => {
         p.interpreter.run(compiledProgram!).then((tx) => {
             //window.location.reload()
+        }).catch((err) =>{
+            setCompileErr("Successfully Compiled\nTX submit error: "+ err.toString())
         })
     }
 //    console.log(`p.script ${p.script}`);
 //    (document.getElementById("brevScript")! as HTMLTextAreaElement).defaultValue = p.script!
+    const appendScript = async () => {
+        if(!p.script) return
+        const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
+        bs.value += p.script
+    }
     const reset = async () => {
         if(!p.script) return
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
-        bs.value = p.script
+        bs.value = SCRIPTS[0].script
     }
-    
+
     const compile = async () => {
         try {
             setCompiledProgram(undefined)
@@ -38,7 +46,10 @@ function Runner(p: Props) {
             console.log('successfully compiled program:\n' + JSON.stringify(compiled, null, 2))
             if(p.account) p.interpreter.run.estimateGas(compiled).then((estimate) => {
                 setGasEstimate(estimate)
-            })
+            }).catch((err)=>{
+                setCompileErr("Successfully Compiled\nEstimate Gas Error: " + err)
+            });
+            
             setCompiledProgram(compiled)
             setCompileErr("Successfully Compiled")
         } catch (err) {
@@ -54,6 +65,9 @@ function Runner(p: Props) {
         <br></br>
         <button style={{ padding: 10, margin: 10 }} onClick={reset}>
             Reset
+        </button>
+        <button style={{ padding: 10, margin: 10 }} onClick={appendScript}>
+            Append Template
         </button>
         <button style={{ padding: 10, margin: 10 }} onClick={compile}>
             Compile
