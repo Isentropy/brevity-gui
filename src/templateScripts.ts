@@ -109,31 +109,6 @@ var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(toTo
 var tokenOwner = STATICCALL uniswapPositionManager.ownerOf(tokenId)
 if(!(tokenOwner == this)) revert
 `
-interface Addresses {
-    uniswapRouter?: string
-    uniswapPositionManager?: string
-    weth?: string
-    usdc?: string
-    cloneFactory?: string
-    blockExplorerURL?: string
-}
-
-function toBrevity(a: Addresses) {
-    return Object.entries(a).filter((e) => { return e[1] }).map((e) => { return e[0] + " := " + e[1] }).join("\n")
-}
-
-export const ADDRESSES_MAINNET: Addresses = {
-    uniswapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
-    uniswapPositionManager: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
-    weth: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-    usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-}
-
-export const ADDRESSES_GNOSIS: Addresses = {
-    cloneFactory: "0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C",
-    blockExplorerURL: "https://gnosisscan.io"
-}
-
 const BASESCRIPTS: ScriptAndDesc[] = [
     {
         desc: "sum of squares",
@@ -158,10 +133,34 @@ const BASESCRIPTS: ScriptAndDesc[] = [
 
 ]
 
+interface Addresses {
+    uniswapRouter?: string
+    uniswapPositionManager?: string
+    weth?: string
+    usdc?: string
+    cloneFactory?: string
+    blockExplorerURL?: string
+}
+
+function toBrevity(a: Addresses) {
+    return Object.entries(a).filter((e) => { return e[1] }).map((e) => { return e[0] + " := " + e[1] }).join("\n")
+}
 
 export const ADDRESSES_BYCHAINID = new Map<string, Addresses>()
-ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000001", ADDRESSES_MAINNET)
-ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000064", ADDRESSES_GNOSIS)
+
+// mainnet
+ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000001", {
+    uniswapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+    uniswapPositionManager: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+    weth: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+})
+
+// gnosis
+ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000064", {
+    cloneFactory: "0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C",
+    blockExplorerURL: "https://gnosisscan.io"
+})
 
 
 export function scriptsFromChainId(chainId: string | undefined) {

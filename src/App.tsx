@@ -8,7 +8,7 @@ import BrevityInterpreterStats from './BrevityInterpreterStats';
 import Runner from './Runner';
 import { Script } from 'vm';
 import ScriptSelector, { ScriptAndDesc } from './ScriptSelector';
-import { ADDRESSES_BYCHAINID, ADDRESSES_GNOSIS, scriptsFromChainId } from './templateScripts';
+import { ADDRESSES_BYCHAINID, scriptsFromChainId } from './templateScripts';
 const QUERY_PARAM_BREVITY_ADDRESS = 'b'
 //0x00c36BbbF0151280d052C4a3f2D3cFeB52ee1f84
 export const DEFAULT_BREVITY_INTERPRETER = '0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3'
