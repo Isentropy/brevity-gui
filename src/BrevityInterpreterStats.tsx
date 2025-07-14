@@ -4,7 +4,7 @@ import BlockExplorerLink from "./BlockExplorerLink";
 import { Filter, id, toBeHex, ZeroAddress } from "ethers";
 import TokenBalance from "./TokenBalance";
 
-function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
+function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter, chainId: string | undefined) {
     const [address, setAddress] = useState<string>();
     const [version, setVersion] = useState<bigint>();
     const [owner, setOwner] = useState<string>();
@@ -35,7 +35,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
         <h3>Brevity Interpreter Info:</h3>
         {address && (
             <div>
-            Address: {BlockExplorerLink(address)}
+            Address: {BlockExplorerLink(address, chainId)}
             </div>
         )}
         {version?.toString() && (
@@ -45,7 +45,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
         )}
         {owner && (
             <div>
-            Owner: {BlockExplorerLink(owner)}
+            Owner: {BlockExplorerLink(owner, chainId)}
             </div>
         )}
         <h3>Token Holdings:</h3>
@@ -67,7 +67,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter) {
             </tr>
             {uniqueTokens && address && interpreter && (
             uniqueTokens.map((tokenAddress)=>{
-                return <TokenBalance tokenAddress={tokenAddress} holderAddress={address} interpreter={interpreter} withdrawToAddress={owner}></TokenBalance>
+                return <TokenBalance tokenAddress={tokenAddress} chainId={chainId} holderAddress={address} interpreter={interpreter} withdrawToAddress={owner}></TokenBalance>
             })
         )}
           </tbody>

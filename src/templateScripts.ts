@@ -115,6 +115,7 @@ interface Addresses {
     weth?: string
     usdc?: string
     cloneFactory?: string
+    blockExplorerURL?: string
 }
 
 function toBrevity(a: Addresses) {
@@ -128,10 +129,9 @@ export const ADDRESSES_MAINNET: Addresses = {
     usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
 }
 
-
-
 export const ADDRESSES_GNOSIS: Addresses = {
-    cloneFactory: "0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C"
+    cloneFactory: "0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C",
+    blockExplorerURL: "https://gnosisscan.io"
 }
 
 const BASESCRIPTS: ScriptAndDesc[] = [

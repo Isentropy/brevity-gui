@@ -83,20 +83,20 @@ function App() {
         Connect MetaMask
       </button>
       <br></br>
-      Connected to Brevity interpreter {BlockExplorerLink(interpreterAddress)} on chain {chainId}
+      Connected to Brevity interpreter {BlockExplorerLink(interpreterAddress, chainId)} on chain {chainId}
       <button style={{ padding: 10, margin: 10 }} disabled={account && chainId && ADDRESSES_BYCHAINID.get(toBeHex(chainId, 32))?.cloneFactory ? false : true} onClick={clone}>Clone</button>
 
       {account && (
         <div>
           <p></p>
-          Connected to MetaMask with wallet: {BlockExplorerLink(account)} {owner?.toLowerCase() == account.toLowerCase() ? "OWNER" : "NOT OWNER"}
+          Connected to MetaMask with wallet: {BlockExplorerLink(account, chainId)} {owner?.toLowerCase() == account.toLowerCase() ? "OWNER" : "NOT OWNER"}
         </div>
       )}
       <br></br>
       <ScriptSelector callback={setScript} scripts={scriptsFromChainId(chainId)} optionsLength={10}></ScriptSelector>
       <br></br>
       <Runner interpreter={interpreter} account={account} script={script} chainId={chainId}></Runner>
-      {interpreter && BrevityInterpreterStats(interpreter)}
+      {interpreter && BrevityInterpreterStats(interpreter, chainId)}
     </div>
   );
 }

@@ -6,7 +6,8 @@ interface Props {
     holderAddress: string,
     tokenAddress: string,
     interpreter: OwnedBrevityInterpreter,
-    withdrawToAddress?: string
+    withdrawToAddress?: string,
+    chainId?: string
 }
 
 function TokenBalance(p: Props) {
@@ -27,7 +28,7 @@ function TokenBalance(p: Props) {
     }
 
     return <tr>
-        <td>{BlockExplorerLink(p.tokenAddress)}</td>
+        <td>{BlockExplorerLink(p.tokenAddress, p.chainId)}</td>
         <td style={{ textAlign: "right" }}>{balance?.toString() && (balance?.toString())}</td>
         <td>{p.withdrawToAddress && (<button onClick={withdraw}>Withdraw to Owner</button>)}</td>
         <td>{p.withdrawToAddress && (<input id="withdrawAmount" defaultValue={balance?.toString()}></input>)}</td>
