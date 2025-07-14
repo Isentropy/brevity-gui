@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from "@isentropy/brevity-lang/tslib/brevityParser";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types";
-import { SCRIPTS } from "./templateScripts";
+import { scriptsFromChainId } from "./templateScripts";
 
 interface Props {
     interpreter: OwnedBrevityInterpreter
     account?: string
     script?: string
+    chainId?: string
 }
 
 function Runner(p: Props) {
@@ -31,7 +32,7 @@ function Runner(p: Props) {
     const reset = async () => {
         if(!p.script) return
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
-        bs.value = SCRIPTS[0].script
+        bs.value = scriptsFromChainId(p.chainId)[0].script
     }
 
     const compile = async () => {
@@ -61,7 +62,7 @@ function Runner(p: Props) {
 
     return (
     <div className="brevityRunner">
-        <textarea id="brevScript" cols={80} rows={20} defaultValue={p.script}></textarea>
+        <textarea id="brevScript" spellCheck={false} cols={80} rows={20} defaultValue={p.script}></textarea>
         <br></br>
         <button style={{ padding: 10, margin: 10 }} onClick={reset}>
             Reset
@@ -77,7 +78,7 @@ function Runner(p: Props) {
         </button>
         {compiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}
         <h3>Error Console: </h3>
-        <textarea readOnly={true} cols={80} value={compileErr}></textarea>
+        <textarea spellCheck={false} readOnly={true} cols={80} value={compileErr}></textarea>
 
     </div>)
 }

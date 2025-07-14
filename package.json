@@ -2,9 +2,10 @@
   "name": "brevity-gui",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/brevityDemo25",
   "dependencies": {
     "@babel/preset-typescript": "^7.26.0",
-    "@isentropy/brevity-lang": "github:Isentropy/brevity#249d024b929b80b790032f1f427465b5c85c2b19",
+    "@isentropy/brevity-lang": "github:Isentropy/brevity#3d99b7647a0855591108becaec6e8a54587905f9",
     "@metamask/sdk-react": "^0.31.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

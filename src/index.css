@@ -6,7 +6,7 @@ body {
   font-size: 16pt;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:aquamarine;
+  background-color:rgb(187, 252, 230);
 }
 
 textarea {
