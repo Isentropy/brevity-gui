@@ -10,6 +10,7 @@ import { Script } from 'vm';
 import ScriptSelector, { ScriptAndDesc } from './ScriptSelector';
 import Interpreter from './Interpreter'
 import { ADDRESSES_BYCHAINID, scriptsFromChainId } from './templateScripts';
+import ConnectOrCreate from './ConnectOrCreate';
 export const QUERY_PARAM_BREVITY_ADDRESS = 'b'
 //0x00c36BbbF0151280d052C4a3f2D3cFeB52ee1f84
 
@@ -76,6 +77,9 @@ function App() {
       }
       { account && interpreterAddress && chainId && signer && !deployed &&
         `Interpreter Not Deployed: ${interpreterAddress}`
+      }
+      { account && signer && !deployed && 
+        <ConnectOrCreate signer={signer} account={account}></ConnectOrCreate>
       }
     </div>
   );
