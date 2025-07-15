@@ -3,7 +3,7 @@ import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types
 import BlockExplorerLink from "./BlockExplorerLink";
 import { ZeroAddress } from "ethers";
 import { ERC20__factory, IERC20__factory } from "@isentropy/brevity-lang/typechain-types";
-
+const MAXSYMBOLLEN = 10
 interface Props {
     holderAddress: string,
     tokenAddress: string,
@@ -23,7 +23,10 @@ function TokenBalance(p: Props) {
     if (!symbol) {
         if (p.tokenAddress != ZeroAddress) {
             const erc20 = ERC20__factory.connect(p.tokenAddress, p.interpreter.runner)
-            erc20.symbol().then((s) => { setSymbol(s) })
+            erc20.symbol().then((s) => {
+                if(s.length > MAXSYMBOLLEN) s = s.substring(0, MAXSYMBOLLEN) + "..."
+                setSymbol(s) 
+            })
         } else setSymbol("native")
     }
     const withdraw = async () => {

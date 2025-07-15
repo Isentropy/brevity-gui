@@ -56,7 +56,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter, chainId:
                 Token Address
               </th>
               <th>
-                Token Name
+                Symbol
               </th>
               <th>
                 Balance
