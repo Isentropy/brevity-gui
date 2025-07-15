@@ -109,6 +109,24 @@ var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(toTo
 var tokenOwner = STATICCALL uniswapPositionManager.ownerOf(tokenId)
 if(!(tokenOwner == this)) revert
 `
+
+const TESTOKEN = `
+tokenInit := init(string,address,uint256)
+cloneDeterministic := cloneDeterministic(address,bytes32,address)
+predictDeterministicAddress := predictDeterministicAddress(address,bytes32,address)
+tokenSymbol := "TT"
+
+// one million in wei
+mintAmount := 1000000000000000000000000
+// who gets minted tokens
+mintRecipient := this
+var salt = this + block.timestamp
+CALL cloneFactory.cloneDeterministic(testToken, salt, 0)
+var newToken = STATICCALL cloneFactory.predictDeterministicAddress(testToken, salt, 0)
+CALL newToken.tokenInit(96, this, mintAmount, tokenSymbol)
+`
+
+
 const BASESCRIPTS: ScriptAndDesc[] = [
     {
         desc: "sum of squares",
@@ -121,6 +139,10 @@ const BASESCRIPTS: ScriptAndDesc[] = [
     {
         desc: "clone me",
         script: CLONES
+    },
+    {
+        desc: "shitcoin",
+        script: TESTOKEN
     },
     {
         desc: "uniswap swap",
@@ -140,10 +162,11 @@ interface Addresses {
     usdc?: string
     cloneFactory?: string
     blockExplorerURL?: string
+    testToken?: string
 }
 
 function toBrevity(a: Addresses) {
-    return Object.entries(a).filter((e) => { return e[1] }).map((e) => { return e[0] + " := " + e[1] }).join("\n")
+    return Object.entries(a).filter((e) => { return e[1]?.toString().startsWith("0x") }).map((e) => { return e[0] + " := " + e[1] }).join("\n")
 }
 
 export const ADDRESSES_BYCHAINID = new Map<string, Addresses>()
@@ -158,10 +181,11 @@ ADDRESSES_BYCHAINID.set("0x00000000000000000000000000000000000000000000000000000
 
 // gnosis
 ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000064", {
-    cloneFactory: "0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C",
-    blockExplorerURL: "https://gnosisscan.io"
+    cloneFactory: "0xcFD06039eE4DAf792e4f7754A8D628E012B44A9C",
+    blockExplorerURL: "https://gnosisscan.io",
+    testToken: "0x20aaD28112Afed8cdDE7cACc49807D618A8C497E"
 })
-
+//    testToken: "0xD921c21AEe431BB73Ac5f513ED42FE4e01858639"
 
 export function scriptsFromChainId(chainId: string | undefined) {
     if(chainId) chainId = toBeHex(chainId, 32)
