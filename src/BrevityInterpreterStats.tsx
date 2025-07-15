@@ -53,6 +53,9 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter, chainId:
           <tbody>
             <tr>
               <th>
+                Token Address
+              </th>
+              <th>
                 Token Name
               </th>
               <th>

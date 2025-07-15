@@ -11,8 +11,11 @@ import ScriptSelector, { ScriptAndDesc } from './ScriptSelector';
 import { ADDRESSES_BYCHAINID, scriptsFromChainId } from './templateScripts';
 const QUERY_PARAM_BREVITY_ADDRESS = 'b'
 //0x00c36BbbF0151280d052C4a3f2D3cFeB52ee1f84
-export const DEFAULT_BREVITY_INTERPRETER = '0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3'
+
+const DEFAULT_BREVITY_INTERPRETER = '0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3'
 const CLONECODE = /0x363d3d373d3d3d363d73([a-f0-9]{40,40})5af43d82803e903d91602b57fd5bf3/
+const defaultProvider = new JsonRpcProvider('https://rpc.gnosischain.com/');
+const defaultChainID = '0x64'
 
 interface Window {
   ethereum: any
@@ -25,15 +28,15 @@ function App() {
 
   const urlParams = new URLSearchParams(window.location.search);
   let interpreterAddress = urlParams.get(QUERY_PARAM_BREVITY_ADDRESS);
-  if (!interpreterAddress) interpreterAddress = DEFAULT_BREVITY_INTERPRETER
-
-  const defaultProvider = new JsonRpcProvider('https://rpc.gnosischain.com/');
-  const defaultChainID = '0x64'
+  if (!interpreterAddress) {
+    interpreterAddress = DEFAULT_BREVITY_INTERPRETER
+    window.location.search = `?${QUERY_PARAM_BREVITY_ADDRESS}=` + DEFAULT_BREVITY_INTERPRETER
+  }
 
   const [interpreter, setInterpreter] = useState<OwnedBrevityInterpreter>(OwnedBrevityInterpreter__factory.connect(interpreterAddress, defaultProvider));
   const [account, setAccount] = useState<string>();
   const [owner, setOwner] = useState<string>();
-  const { sdk, connected, connecting, chainId } = useSDK();
+  const { sdk, connected, connecting, chainId, provider } = useSDK();
   const [script, setScript] = useState<string>(scriptsFromChainId(defaultChainID)[0].script);
 
   const connect = async () => {
