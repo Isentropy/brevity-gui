@@ -175,20 +175,30 @@ function toBrevity(a: Addresses) {
 export const ADDRESSES_BYCHAINID = new Map<string, Addresses>()
 
 // mainnet
-ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000001", {
+ADDRESSES_BYCHAINID.set(toBeHex(1, 32), {
     uniswapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
     uniswapPositionManager: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
     weth: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-    usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+    usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    blockExplorerURL: "https://etherscan.io"
 })
 
 // gnosis
-ADDRESSES_BYCHAINID.set("0x0000000000000000000000000000000000000000000000000000000000000064", {
+ADDRESSES_BYCHAINID.set(toBeHex(100, 32), {
     cloneFactory: "0xcFD06039eE4DAf792e4f7754A8D628E012B44A9C",
     blockExplorerURL: "https://gnosisscan.io",
     testToken: "0x20aaD28112Afed8cdDE7cACc49807D618A8C497E"
 })
-//    testToken: "0xD921c21AEe431BB73Ac5f513ED42FE4e01858639"
+
+// optimism
+ADDRESSES_BYCHAINID.set(toBeHex(10, 32), {
+    blockExplorerURL: "https://optimistic.etherscan.io"
+})
+
+// arbitrum one
+ADDRESSES_BYCHAINID.set(toBeHex(42161, 32), {
+    blockExplorerURL: "https://arbiscan.io"
+})
 
 export function scriptsFromChainId(chainId: string | undefined) {
     if(chainId) chainId = toBeHex(chainId, 32)

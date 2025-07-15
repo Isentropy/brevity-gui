@@ -32,6 +32,8 @@ function ConnectOrCreate(p: Props) {
         <h4>Connect To Existing Brevity Interpreter</h4>
         <label>Target:</label> <input id="target" size={42} defaultValue={"0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3"} minLength={4000}></input>
         <button style={{ padding: 10, margin: 10 }} onClick={connect}>Connect</button>
+        <br></br>
+        Connect to existing to clone. Cloning uses 90000 gas, deploy uses 2000000.
     </div>
 
 }
