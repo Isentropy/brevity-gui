@@ -26,7 +26,7 @@ STATICCALL does not change state. write it to named place on memstack:
 var tokenOwner = STATICCALL uniswapPositionManager.ownerOf(tokenId)
 
 CALL changes state:
-CALL {"value": "msg.value"} weth.approve(uniswapRouter, 1234)
+CALL {value: msg.value} weth.approve(uniswapRouter, 1234)
 
 Define Jump point
 #myGotoLine
@@ -96,7 +96,7 @@ mint := mint((address,address,uint24,int24,int24,uint256,uint256,uint256,uint256
 tickUpper := 887220
 tickLower := -887220
 
-CALL {"value": "msg.value"} weth.deposit()()
+CALL {value: msg.value} weth.deposit()()
 
 var wethAmt = STATICCALL weth.balanceOf(this)
 // convert half to USDC and put half as liquidity
@@ -114,15 +114,18 @@ const TESTOKEN = `
 tokenInit := init(string,address,uint256)
 cloneDeterministic := cloneDeterministic(address,bytes32,address)
 predictDeterministicAddress := predictDeterministicAddress(address,bytes32,address)
-tokenSymbol := "TT"
 
+
+var salt = this + block.timestamp
+var newToken = STATICCALL cloneFactory.predictDeterministicAddress(testToken, salt, 0)
+
+tokenSymbol := "TT"
 // one million in wei
 mintAmount := 1000000000000000000000000
 // who gets minted tokens
 mintRecipient := this
-var salt = this + block.timestamp
+
 CALL cloneFactory.cloneDeterministic(testToken, salt, 0)
-var newToken = STATICCALL cloneFactory.predictDeterministicAddress(testToken, salt, 0)
 CALL newToken.tokenInit(96, this, mintAmount, tokenSymbol)
 `
 
@@ -141,7 +144,7 @@ const BASESCRIPTS: ScriptAndDesc[] = [
         script: CLONES
     },
     {
-        desc: "shitcoin",
+        desc: "mint ERC20",
         script: TESTOKEN
     },
     {

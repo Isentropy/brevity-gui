@@ -26,13 +26,15 @@ function App() {
   const urlParams = new URLSearchParams(window.location.search);
   let interpreterAddress = urlParams.get(QUERY_PARAM_BREVITY_ADDRESS);
   if (!interpreterAddress) interpreterAddress = DEFAULT_BREVITY_INTERPRETER
+
   const defaultProvider = new JsonRpcProvider('https://rpc.gnosischain.com/');
+  const defaultChainID = '0x64'
 
   const [interpreter, setInterpreter] = useState<OwnedBrevityInterpreter>(OwnedBrevityInterpreter__factory.connect(interpreterAddress, defaultProvider));
   const [account, setAccount] = useState<string>();
   const [owner, setOwner] = useState<string>();
   const { sdk, connected, connecting, chainId } = useSDK();
-  const [script, setScript] = useState<string>(scriptsFromChainId(chainId)[0].script);
+  const [script, setScript] = useState<string>(scriptsFromChainId(defaultChainID)[0].script);
 
   const connect = async () => {
     try {
