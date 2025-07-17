@@ -83,29 +83,27 @@ const UNISWAP_SWAP = `
 //toTokenMinOutput := 456
 swapFee := 3000
 exactInputSingle := exactInputSingle((address,address,uint24,address,uint256,uint256,uint160))
-
 var toTokenBal = CALL uniswapRouter.exactInputSingle(fromToken, toToken, swapFee, this, fromAmount, toTokenMinOutput, 0)
 `
 
-const UNISWAP_ADD_LIQUIDITY = `
-// INPUTS:
-//toToken := usdc
 
+
+const UNISWAP_ADD_LIQUIDITY = `
 mint := mint((address,address,uint24,int24,int24,uint256,uint256,uint256,uint256,address,uint256))
+
+// INPUTS:
+//tokenA := weth
+//amountA := 123
+//tokenB := usdc
+//amountB := 456
 
 tickUpper := 887220
 tickLower := -887220
+fee := 3000
 
-CALL {value: msg.value} weth.deposit()()
-
-var wethAmt = STATICCALL weth.balanceOf(this)
-// convert half to USDC and put half as liquidity
-wethAmt /= 2
-CALL weth.approve(uniswapRouter, wethAmt)
-var toTokenBal = CALL uniswapRouter.exactInputSingle(weth, toToken, fee, this, wethAmt, 1, 0)
-CALL weth.approve(uniswapPositionManager, wethAmt)
-CALL toToken.approve(uniswapPositionManager, toTokenBal)
-var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(toToken, weth, fee, tickLower, tickUpper, toTokenBal, wethAmt, 0, 0, this, block.timestamp)
+CALL tokenA.approve(uniswapPositionManager, amountA)
+CALL tokenB.approve(uniswapPositionManager, amountB)
+var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(tokenA, tokenB, fee, tickLower, tickUpper, amountA, amountB, 0, 0, this, block.timestamp)
 var tokenOwner = STATICCALL uniswapPositionManager.ownerOf(tokenId)
 if(!(tokenOwner == this)) revert
 `
@@ -119,7 +117,7 @@ predictDeterministicAddress := predictDeterministicAddress(address,bytes32,addre
 var salt = this + block.timestamp
 var newToken = STATICCALL cloneFactory.predictDeterministicAddress(testToken, salt, 0)
 
-tokenSymbol := "TT"
+tokenSymbol := "TEST"
 // one million in wei
 mintAmount := 1000000000000000000000000
 // who gets minted tokens
@@ -199,6 +197,14 @@ ADDRESSES_BYCHAINID.set(toBeHex(10, 32), {
 ADDRESSES_BYCHAINID.set(toBeHex(42161, 32), {
     blockExplorerURL: "https://arbiscan.io"
 })
+
+
+//avax C chain
+ADDRESSES_BYCHAINID.set(toBeHex(43114, 32), {
+    blockExplorerURL: "https://snowtrace.io"
+})
+
+
 
 export function scriptsFromChainId(chainId: string | undefined) {
     if(chainId) chainId = toBeHex(chainId, 32)

@@ -43,7 +43,7 @@ function App() {
 
   return (
     <div className="brevityGui">
-      <h3> Brevity Demo. Use at your own risk! See <a href='https://github.com/Isentropy/brevity/blob/master/LICENSE'>Brevity license</a>.</h3>
+      <h3> <a href="https://github.com/Isentropy/brevity">Brevity</a> Demo. Use at your own risk! See <a href='https://github.com/Isentropy/brevity/blob/master/LICENSE'>Brevity license</a>.</h3>
       <button style={{ padding: 10, margin: 10 }} onClick={connect}>
         Connect MetaMask
       </button>

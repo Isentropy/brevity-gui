@@ -65,7 +65,7 @@ function BrevityInterpreterStats(interpreter : OwnedBrevityInterpreter, chainId:
                 Withdraw To Owner
               </th>
               <th>
-                Withdraw Amount
+                Withdraw Amount (wei)
               </th>
             </tr>
             {uniqueTokens && address && interpreter && (

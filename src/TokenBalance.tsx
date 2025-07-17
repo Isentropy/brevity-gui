@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types/contracts/OwnedBrevityInterpreter";
 import BlockExplorerLink from "./BlockExplorerLink";
-import { ZeroAddress } from "ethers";
+import { formatEther, parseEther, ZeroAddress } from "ethers";
 import { ERC20__factory, IERC20__factory } from "@isentropy/brevity-lang/typechain-types";
 const MAXSYMBOLLEN = 10
 interface Props {
@@ -41,8 +41,8 @@ function TokenBalance(p: Props) {
     return <tr>
         <td>{BlockExplorerLink(p.tokenAddress, p.chainId)}</td>
         <td>{symbol}</td>
-        <td style={{ textAlign: "right" }}>{balance?.toString() && (balance?.toString())}</td>
-        <td>{p.withdrawToAddress && (<button onClick={withdraw}>Withdraw to Owner</button>)}</td>
+        <td style={{ textAlign: "right" }}>{balance?.toString() && formatEther(balance.toString())}</td>
+        <td style={{ textAlign: "right" }}>{p.withdrawToAddress && (<button onClick={withdraw}>Withdraw to Owner</button>)}</td>
         <td>{p.withdrawToAddress && (<input id="withdrawAmount" defaultValue={balance?.toString()}></input>)}</td>
     </tr>
 }

@@ -8,6 +8,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color:rgb(187, 252, 230);
 }
+a {
+  text-decoration: none;
+}
 
 input {
   font-size: 16pt;
