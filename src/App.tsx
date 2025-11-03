@@ -61,8 +61,8 @@ function App() {
       { account && interpreterAddress && chainId && signer && !deployed &&
         `Interpreter Not Deployed: ${interpreterAddress}`
       }
-      { account && signer && !deployed && 
-        <ConnectOrCreate signer={signer} account={account}></ConnectOrCreate>
+      { account && signer && !deployed && chainId && 
+        <ConnectOrCreate signer={signer} chainId={chainId}  account={account}></ConnectOrCreate>
       }
       <div><hr></hr>
       Copyright 2024-2025 <a href="http://isentropy.com"> Isentropy LLC 

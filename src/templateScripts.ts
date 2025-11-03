@@ -86,10 +86,16 @@ exactInputSingle := exactInputSingle((address,address,uint24,address,uint256,uin
 var toTokenBal = CALL uniswapRouter.exactInputSingle(fromToken, toToken, swapFee, this, fromAmount, toTokenMinOutput, 0)
 `
 
-
+const DATA_RECORD = `
+topicDataRecord := 0x5103b4be73294a3900dd402358b5ddc98b11ac0b4cde2542de6ea42f1b36487b
+s := "hiiii"
+log3 := log3(uint256,uint256,uint256,bytes)
+CALL this.log3(topicDataRecord, 0, 0, 128, s)
+`
 
 const UNISWAP_ADD_LIQUIDITY = `
 mint := mint((address,address,uint24,int24,int24,uint256,uint256,uint256,uint256,address,uint256))
+exactInputSingle := exactInputSingle((address,address,uint24,address,uint256,uint256,uint160))
 
 // INPUTS:
 //tokenA := weth
@@ -101,6 +107,7 @@ tickUpper := 887220
 tickLower := -887220
 fee := 3000
 
+//CALL {value: tokenA} weth.deposit()()
 CALL tokenA.approve(uniswapPositionManager, amountA)
 CALL tokenB.approve(uniswapPositionManager, amountB)
 var tokenId, liquidity, amount0, amount1 = CALL uniswapPositionManager.mint(tokenA, tokenB, fee, tickLower, tickUpper, amountA, amountB, 0, 0, this, block.timestamp)
@@ -164,6 +171,7 @@ interface Addresses {
     cloneFactory?: string
     blockExplorerURL?: string
     testToken?: string
+    templateInterpreter?: string
 }
 
 function toBrevity(a: Addresses) {
@@ -174,18 +182,21 @@ export const ADDRESSES_BYCHAINID = new Map<string, Addresses>()
 
 // mainnet
 ADDRESSES_BYCHAINID.set(toBeHex(1, 32), {
+    cloneFactory: "0x5C199aa90E2E360Cc80D5fdfC75534E7b68c04e7",
     uniswapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
     uniswapPositionManager: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
     weth: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     usdc: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    blockExplorerURL: "https://etherscan.io"
+    blockExplorerURL: "https://etherscan.io",
+    templateInterpreter: "0x7825a0C45Daf9b43B70E417bd2e022860531dB83"
 })
 
 // gnosis
 ADDRESSES_BYCHAINID.set(toBeHex(100, 32), {
     cloneFactory: "0xcFD06039eE4DAf792e4f7754A8D628E012B44A9C",
     blockExplorerURL: "https://gnosisscan.io",
-    testToken: "0x20aaD28112Afed8cdDE7cACc49807D618A8C497E"
+    testToken: "0x20aaD28112Afed8cdDE7cACc49807D618A8C497E",
+    templateInterpreter: "0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3"
 })
 
 // optimism
