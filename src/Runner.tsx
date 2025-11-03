@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from "@isentropy/brevity-lang/tslib/brevityParser";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types";
-import { scriptsFromChainId } from "./templateScripts";
+import { composeScript, ScriptAndDesc, scriptsFromChainId } from "./templateScripts";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ScriptSelector from "./ScriptSelector";
@@ -11,11 +11,18 @@ interface Props {
     chainId: string
 }
 
+interface Step {
+    script: ScriptAndDesc,
+    params: string[]
+}
+
 function Runner(p: Props) {
     const [compiledProgram, setCompiledProgram] = useState<BrevityParserOutput>();
     const [gasEstimate, setGasEstimate] = useState<bigint>();
     const [compileErr, setCompileErr] = useState<any>();
-    const [script, setScript] = useState<string>();
+    const [steps, setSteps] = useState<Step[]>([]);
+
+    //const [script, setScript] = useState<string>();
     //if(!script) setScript(scriptsFromChainId(p.chainId.toString())[0].script)
 
     const sendTx = async () => {
@@ -27,14 +34,20 @@ function Runner(p: Props) {
     }
     //    console.log(`p.script ${p.script}`);
     //    (document.getElementById("brevScript")! as HTMLTextAreaElement).defaultValue = p.script!
-    const appendScript = async () => {
+    const appendScript = async (script: string) => {
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
         if (!script) return
         bs.value += script
     }
+    const receiveStep = (script: ScriptAndDesc, params: string[]) => {
+        appendScript(composeScript(script, params))
+        setSteps([...steps, {script, params}])
+    }
+    
     const reset = async () => {
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
         bs.value = ''
+        setSteps([])
         //console.log(`reset ${bs}`)
     }
 
@@ -67,16 +80,24 @@ function Runner(p: Props) {
         <div className="brevityRunner">
             <Tabs>
                 <TabList>
-                    <Tab>GUI Compose</Tab>
+                    <Tab>Step Compose</Tab>
                     <Tab>Brevity Code</Tab>
                 </TabList>
                 <TabPanel>
-                    <div style={{alignSelf: "left"}}>
-                        <ScriptSelector callback={setScript} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
-                        <button style={{ padding: 10, margin: 10 }} onClick={appendScript}>
-                            Append Template
-                        </button>
+                    <div style={{display: "flex"}}>
+                        <ScriptSelector stderr={setCompileErr} outputScript={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
+                        <br></br>
                     </div>
+                    <h3>Workflow</h3>
+                    {(steps.map((step, index)=> {
+                        let kv = ""
+                        for(let i=0; i<step.params.length; i++) {
+                            if(i != 0) kv += ","
+                            kv += step.script.inputs![i] + "=" + step.params[i]
+                        }
+                        return <div>{index} : {step.script.desc}, {kv} </div>
+                    }))}
+
                 </TabPanel>
                 <TabPanel forceRender>
                     <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>

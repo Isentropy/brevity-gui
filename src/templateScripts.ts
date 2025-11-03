@@ -1,8 +1,24 @@
 import { toBeHex } from "ethers";
-import { ScriptAndDesc } from "./ScriptSelector";
+
+export interface ScriptAndDesc {
+    desc: string
+    script: string
+    inputs?: string[]
+}
 
 //const CLONEFACTORY = '0x7F34DBB490f15A724BB6cee784cFaf351eF62e4C'
 
+export function composeScript(script: ScriptAndDesc, params: string[]) {
+    let output = ''
+    if(script.inputs) {
+        if(script.inputs.length != params.length) throw Error(`can make snippet. expected ${script.inputs.length}, found ${params.length}`)
+        for(let i=0; i < params.length; i++) {
+            output += `${script.inputs[i]} := ${params[i]}\n`
+        }
+    }
+    output += script.script + '\n'
+    return output
+}
 
 const TUTORIAL = `/*
 Welcome to Brevity v1. Remember: The only data type is byte32! Example commands:
@@ -138,7 +154,8 @@ CALL newToken.tokenInit(96, this, mintAmount, tokenSymbol)
 const BASESCRIPTS: ScriptAndDesc[] = [
     {
         desc: "sum of squares",
-        script: SUMDEMO
+        script: SUMDEMO,
+        inputs: ["foo", "bar"]
     },
     {
         desc: "tutorial comments",
