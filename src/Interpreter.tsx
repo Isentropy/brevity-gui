@@ -19,11 +19,9 @@ interface Props {
 //const [interpreter, setInterpreter] = useState<OwnedBrevityInterpreter>();
 
 function Interpreter(p: Props) {
-    const [script, setScript] = useState<string>();
     const [owner, setOwner] = useState<string>();
 
     const interpreter = OwnedBrevityInterpreter__factory.connect(p.interpreterAddress, p.signer)
-    if(!script) setScript(scriptsFromChainId(p.chainId.toString())[0].script)
     if(!owner) interpreter.owner().then((o) => {setOwner(o)})
     const clone = async () => {
         try {
@@ -52,11 +50,8 @@ function Interpreter(p: Props) {
     return <div>
         Connected to Brevity interpreter {BlockExplorerLink(p.interpreterAddress, p.chainId)} as {owner?.toLowerCase() == p.account.toLowerCase() ? "OWNER" : "NOT OWNER"}
         <button style={{ padding: 10, margin: 10 }} disabled={ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.cloneFactory ? false : true} onClick={clone}>Clone</button>
-
         <br></br>
-        <ScriptSelector callback={setScript} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
-        <br></br>
-        <Runner interpreter={interpreter} account={p.account} script={script} chainId={p.chainId}></Runner>
+        <Runner interpreter={interpreter} account={p.account}  chainId={p.chainId}></Runner>
         {interpreter && BrevityInterpreterStats(interpreter, p.chainId)}
     </div>
 }

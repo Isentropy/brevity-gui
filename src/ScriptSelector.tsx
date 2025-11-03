@@ -21,9 +21,6 @@ function ScriptSelector(p: Props) {
 
     return (
         <div>
-            <h3>Brevity Console</h3>
-            
-            <label>Template:</label>
             <select onChange={changeHandler} className="scriptSelector" size={Math.min(p.scripts.length, p.optionsLength)}>
                 {p.scripts.map((sd) => {
                     return <option value={sd.script}>{sd.desc}</option>
