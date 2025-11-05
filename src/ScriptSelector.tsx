@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { ScriptAndDesc } from "./templateScripts"
+import { Step } from "./Runner"
 
 interface Props {
     // 
-    outputScript: (script: ScriptAndDesc, params: string[]) => void
+    outputStep: (step: Step) => void
     stderr?: (err: string) => void
     scripts: ScriptAndDesc[]
     optionsLength: number
@@ -18,7 +19,7 @@ function ScriptSelector(p: Props) {
         setScript(p.scripts[sel.selectedIndex])
     }
 
-    const appendScript = () => {
+    const addStep = () => {
         if (!script) return
         const params = []
         if (script.inputs) {
@@ -31,7 +32,7 @@ function ScriptSelector(p: Props) {
                 params.push(val)
             }
         }
-        p.outputScript(script, params)
+        p.outputStep({script, params})
         if (p.stderr) p.stderr(`Added Step`)
     }
 
@@ -56,7 +57,7 @@ function ScriptSelector(p: Props) {
                         }))
                     }
                 </div>
-                <button style={{ padding: 10, margin: 10 }} onClick={appendScript}>
+                <button style={{ padding: 10, margin: 10 }} onClick={addStep}>
                     Add Step
                 </button>
             </div>

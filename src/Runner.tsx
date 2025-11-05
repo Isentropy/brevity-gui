@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from "@isentropy/brevity-lang/tslib/brevityParser";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types";
 import { ADDRESSES_BYCHAINID, composeScript, ScriptAndDesc, scriptsFromChainId, toBrevity } from "./templateScripts";
@@ -36,29 +36,45 @@ function Runner(p: Props) {
     }
     //    console.log(`p.script ${p.script}`);
     //    (document.getElementById("brevScript")! as HTMLTextAreaElement).defaultValue = p.script!
+    /*
     const appendScript = async (script: string) => {
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
         if (!script) return
         bs.value += script
     }
+    */
     /*
     const refreshCodeFromSteps = async () => {
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
         bs.value += script
     }
         */
+
+
+    // refresh script when step received or deleted
     
-    const receiveStep = (script: ScriptAndDesc, params: string[]) => {
-        appendScript('\nclearMemStack\nclearParams\n' + composeScript(script, params))
-        setSteps([...steps, {script, params}])
-    }
-    
-    const reset = async () => {
+    const refreshScriptFromSteps = () => {
+        console.log(`refresh ${steps.length} steps`)
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
-        bs.value = toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32)))
-        setSteps([])
-        //console.log(`reset ${bs}`)
+        const fullScript = steps.map((step) => {
+            return composeScript(step.script, step.params)
+        }).join(`\nclearMemStack\nclearParams\n`)
+        bs.value = toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))) + '\n\n' + fullScript
     }
+    
+
+    const receiveStep = (step: Step) => {
+        setSteps([...steps, step])
+        //console.log(`setSteps ${steps.length}`)
+        //refreshScriptFromSteps()
+    }
+
+    const reset = async () => {
+        setSteps([])
+        //refreshScriptFromSteps()
+    }
+
+    useEffect(refreshScriptFromSteps, [steps])
 
     const compile = async () => {
         try {
@@ -93,15 +109,15 @@ function Runner(p: Props) {
                     <Tab>Brevity Code</Tab>
                 </TabList>
                 <TabPanel>
-                    <div style={{display: "flex"}}>
-                        <ScriptSelector stderr={setCompileErr} outputScript={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
+                    <div style={{ display: "flex" }}>
+                        <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
                         <br></br>
                     </div>
                     <h3>Workflow</h3>
                     <StepsList steps={steps}></StepsList>
                 </TabPanel>
                 <TabPanel forceRender>
-                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20} defaultValue={toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32)))}></textarea>
+                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
                 </TabPanel>
             </Tabs>
             <br></br>
