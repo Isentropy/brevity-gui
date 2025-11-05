@@ -1,4 +1,4 @@
-Copyright (c) 2024 Isentropy LLC. All Rights Reserved
+Copyright (c) 2024,2025 Isentropy LLC. All Rights Reserved
 
 NOT LICENSED
 
