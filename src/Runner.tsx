@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { BrevityParser, BrevityParserConfig, BrevityParserOutput } from "@isentropy/brevity-lang/tslib/brevityParser";
 import { OwnedBrevityInterpreter } from "@isentropy/brevity-lang/typechain-types";
-import { composeScript, ScriptAndDesc, scriptsFromChainId } from "./templateScripts";
+import { ADDRESSES_BYCHAINID, composeScript, ScriptAndDesc, scriptsFromChainId, toBrevity } from "./templateScripts";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ScriptSelector from "./ScriptSelector";
+import StepsList from "./StepsList";
+import { toBeHex } from "ethers";
 interface Props {
     interpreter: OwnedBrevityInterpreter
     account?: string
     chainId: string
 }
 
-interface Step {
+export interface Step {
     script: ScriptAndDesc,
     params: string[]
 }
@@ -39,14 +41,21 @@ function Runner(p: Props) {
         if (!script) return
         bs.value += script
     }
+    /*
+    const refreshCodeFromSteps = async () => {
+        const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
+        bs.value += script
+    }
+        */
+    
     const receiveStep = (script: ScriptAndDesc, params: string[]) => {
-        appendScript(composeScript(script, params))
+        appendScript('\nclearMemStack\nclearParams\n' + composeScript(script, params))
         setSteps([...steps, {script, params}])
     }
     
     const reset = async () => {
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
-        bs.value = ''
+        bs.value = toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32)))
         setSteps([])
         //console.log(`reset ${bs}`)
     }
@@ -89,18 +98,10 @@ function Runner(p: Props) {
                         <br></br>
                     </div>
                     <h3>Workflow</h3>
-                    {(steps.map((step, index)=> {
-                        let kv = ""
-                        for(let i=0; i<step.params.length; i++) {
-                            if(i != 0) kv += ","
-                            kv += step.script.inputs![i] + "=" + step.params[i]
-                        }
-                        return <div>{index} : {step.script.desc}, {kv} </div>
-                    }))}
-
+                    <StepsList steps={steps}></StepsList>
                 </TabPanel>
                 <TabPanel forceRender>
-                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
+                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20} defaultValue={toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32)))}></textarea>
                 </TabPanel>
             </Tabs>
             <br></br>

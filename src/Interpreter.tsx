@@ -25,7 +25,7 @@ function Interpreter(p: Props) {
     if(!owner) interpreter.owner().then((o) => {setOwner(o)})
     const clone = async () => {
         try {
-            const cloneFactory = p.chainId ? ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.cloneFactory : p.chainId
+            const cloneFactory = p.chainId ? ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.CLONE_FACTORY : p.chainId
             if (!cloneFactory) {
                 console.error(`No CloneFactory defined for chainId ${p.chainId}`)
                 return
@@ -49,7 +49,7 @@ function Interpreter(p: Props) {
     }
     return <div>
         Connected to Brevity interpreter {BlockExplorerLink(p.interpreterAddress, p.chainId)} as {owner?.toLowerCase() == p.account.toLowerCase() ? "OWNER" : "NOT OWNER"}
-        <button style={{ padding: 10, margin: 10 }} disabled={ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.cloneFactory ? false : true} onClick={clone}>Clone</button>
+        <button style={{ padding: 10, margin: 10 }} disabled={ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.CLONE_FACTORY ? false : true} onClick={clone}>Clone</button>
         <br></br>
         <Runner interpreter={interpreter} account={p.account}  chainId={p.chainId}></Runner>
         {interpreter && BrevityInterpreterStats(interpreter, p.chainId)}

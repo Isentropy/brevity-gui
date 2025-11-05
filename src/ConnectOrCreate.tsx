@@ -10,7 +10,7 @@ interface Props {
 }
 
 function ConnectOrCreate(p: Props) {
-    const defaultInterpreter = ADDRESSES_BYCHAINID.get(p.chainId)?.templateInterpreter ? ADDRESSES_BYCHAINID.get(p.chainId)!.templateInterpreter : "0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3"
+    const defaultInterpreter = ADDRESSES_BYCHAINID.get(p.chainId)?.TEMPLATE_INTERPRETER ? ADDRESSES_BYCHAINID.get(p.chainId)!.TEMPLATE_INTERPRETER : "0xb6AA3ce7d5eAcD1a1faE7A9740a5064436946eA3"
     const deploy = async () => {
         const owner = (document.getElementById("owner") as HTMLInputElement).value
         const factory = new OwnedBrevityInterpreter__factory(p.signer)

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { composeScript, ScriptAndDesc } from "./templateScripts"
+import { ScriptAndDesc } from "./templateScripts"
 
 interface Props {
     // 
@@ -23,16 +23,16 @@ function ScriptSelector(p: Props) {
         const params = []
         if (script.inputs) {
             for (let i = 0; i < script.inputs.length; i++) {
-                const val = (document.getElementById("param"+i) as HTMLInputElement).value.trim()
-                if(val == '') {
-                    if(p.stderr) p.stderr(`${script.inputs[i]} unset`)
+                const val = (document.getElementById("param" + i) as HTMLInputElement).value.trim()
+                if (val == '') {
+                    if (p.stderr) p.stderr(`${script.inputs[i]} unset`)
                     return
                 }
                 params.push(val)
             }
         }
         p.outputScript(script, params)
-        if(p.stderr) p.stderr(`Added Step`)
+        if (p.stderr) p.stderr(`Added Step`)
     }
 
     return (
@@ -41,7 +41,7 @@ function ScriptSelector(p: Props) {
             <div style={{ display: "flex" }}>
                 <select onChange={changeHandler} className="scriptSelector" size={Math.min(p.scripts.length, p.optionsLength)}>
                     {p.scripts.map((sd, index) => {
-                        return <option value={sd.script}>{sd.desc}</option>
+                        return <option>{sd.desc}</option>
                     })}
                 </select>
                 <div>
@@ -56,10 +56,10 @@ function ScriptSelector(p: Props) {
                         }))
                     }
                 </div>
+                <button style={{ padding: 10, margin: 10 }} onClick={appendScript}>
+                    Add Step
+                </button>
             </div>
-            <button style={{ padding: 10, margin: 10 }} onClick={appendScript}>
-                Add Step
-            </button>
 
 
         </div>)
