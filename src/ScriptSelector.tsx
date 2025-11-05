@@ -12,7 +12,7 @@ interface Props {
 
 
 function ScriptSelector(p: Props) {
-    const [script, setScript] = useState<ScriptAndDesc>();
+    const [script, setScript] = useState<ScriptAndDesc>(p.scripts[0]);
 
     const changeHandler = (event: any) => {
         const sel = event.target! as HTMLSelectElement
@@ -32,35 +32,36 @@ function ScriptSelector(p: Props) {
                 params.push(val)
             }
         }
-        p.outputStep({script, params})
+        p.outputStep({ script, params })
         if (p.stderr) p.stderr(`Added Step`)
     }
 
     return (
         <div>
+            <label>Select Action: </label><select onChange={changeHandler} className="scriptSelector">
+                {p.scripts.map((sd, index) => {
+                    return <option>{sd.desc}</option>
+                })}
+            </select>
 
             <div style={{ display: "flex" }}>
-                <select onChange={changeHandler} className="scriptSelector" size={Math.min(p.scripts.length, p.optionsLength)}>
-                    {p.scripts.map((sd, index) => {
-                        return <option>{sd.desc}</option>
-                    })}
-                </select>
                 <div>
                     {script?.inputs && <h4>Input Params</h4>}
-
-                    {script?.inputs &&
-                        (script.inputs.map((inputParam, index) => {
-                            return <div>
-                                <label>{inputParam}</label>
-                                <input id={"param" + index}></input>
-                            </div>
-                        }))
-                    }
+                    <table>
+                        {script?.inputs &&
+                            (script.inputs.map((inputParam, index) => {
+                                return <tr>
+                                    <td>{inputParam} = </td>
+                                    <td><input id={"param" + index}></input></td>
+                                </tr>
+                            }))
+                        }
+                    </table>
                 </div>
             </div>
-                <button style={{ padding: 10, margin: 10 }} onClick={addStep}>
-                    Add Step
-                </button>
+            <button style={{ padding: 10, margin: 10 }} onClick={addStep}>
+                Add Step
+            </button>
 
 
         </div>)
