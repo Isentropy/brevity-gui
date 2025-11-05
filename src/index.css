@@ -11,6 +11,18 @@ body {
 a {
   text-decoration: none;
 }
+tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Light gray background */
+}
+
+/* Styles for even-numbered rows */
+tr:nth-child(even) {
+  background-color: #ffffff; /* White background */
+}
+
+tab {
+  font-style: bold;
+}
 
 input {
   font-size: 16pt;

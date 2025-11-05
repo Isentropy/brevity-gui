@@ -109,8 +109,8 @@ function Runner(p: Props) {
         <div className="brevityRunner">
             <Tabs>
                 <TabList>
-                    <Tab>Step Compose</Tab>
-                    <Tab>Brevity Code</Tab>
+                    <Tab><b>Step Compose</b></Tab>
+                    <Tab><b>Brevity Code</b></Tab>
                 </TabList>
                 <TabPanel>
                     <div style={{ display: "flex" }}>

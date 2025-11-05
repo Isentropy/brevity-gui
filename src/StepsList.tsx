@@ -24,7 +24,7 @@ export default function StepsList(p: Props) {
             return <tr className={"row" + (index % 2)}>
                 <td>{index+1}</td>
                 <td>{step.script.desc}</td> 
-                <td>{kv}</td>
+                <td>{'{' + kv + '}'}</td>
                 <td><button onClick={() => {p.rmStep(index)}}>Remove Step</button></td>
                 </tr>
         }))}

@@ -46,7 +46,7 @@ function ScriptSelector(p: Props) {
                     })}
                 </select>
                 <div>
-                    {script?.inputs && <h3>Input Params</h3>}
+                    {script?.inputs && <h4>Input Params</h4>}
 
                     {script?.inputs &&
                         (script.inputs.map((inputParam, index) => {
@@ -57,10 +57,10 @@ function ScriptSelector(p: Props) {
                         }))
                     }
                 </div>
+            </div>
                 <button style={{ padding: 10, margin: 10 }} onClick={addStep}>
                     Add Step
                 </button>
-            </div>
 
 
         </div>)
