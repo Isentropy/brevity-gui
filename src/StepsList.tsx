@@ -2,6 +2,7 @@ import { Step } from "./Runner"
 
 interface Props {
     steps: Step[]
+    rmStep: (index: number) => void
 }
 
 export default function StepsList(p: Props) {
@@ -10,6 +11,8 @@ export default function StepsList(p: Props) {
         <th>Step</th>
         <th>Action</th>
         <th>Params</th>
+        <th>Remove</th>
+
     </tr>
         
         {(p.steps.map((step, index) => {
@@ -22,6 +25,7 @@ export default function StepsList(p: Props) {
                 <td>{index+1}</td>
                 <td>{step.script.desc}</td> 
                 <td>{kv}</td>
+                <td><button onClick={() => {p.rmStep(index)}}>Remove Step</button></td>
                 </tr>
         }))}
     </tbody>

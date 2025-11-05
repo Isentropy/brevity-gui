@@ -68,6 +68,10 @@ function Runner(p: Props) {
         //console.log(`setSteps ${steps.length}`)
         //refreshScriptFromSteps()
     }
+    const rmStep = (index: number) => {
+        console.log(`rmStep ${index}`)
+        setSteps(steps.slice(0, index).concat(index == steps.length - 1 ? [] : steps.slice(index+1)))
+    }
 
     const reset = async () => {
         setSteps([])
@@ -114,7 +118,7 @@ function Runner(p: Props) {
                         <br></br>
                     </div>
                     <h3>Workflow</h3>
-                    <StepsList steps={steps}></StepsList>
+                    <StepsList steps={steps} rmStep={rmStep}></StepsList>
                 </TabPanel>
                 <TabPanel forceRender>
                     <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>

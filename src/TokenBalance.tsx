@@ -30,7 +30,7 @@ function TokenBalance(p: Props) {
         } else setSymbol("native")
     }
     const withdraw = async () => {
-        const amount = (document.getElementById("withdrawAmount") as HTMLInputElement).value
+        const amount = (document.getElementById("amt" + p.tokenAddress) as HTMLInputElement).value
         p.interpreter.withdraw(p.tokenAddress, amount).then((tx) => {
             tx.wait().then((tr) => {
                 window.location.reload()
@@ -42,8 +42,8 @@ function TokenBalance(p: Props) {
         <td>{BlockExplorerLink(p.tokenAddress, p.chainId)}</td>
         <td>{symbol}</td>
         <td style={{ textAlign: "right" }}>{balance?.toString() && formatEther(balance.toString())}</td>
-        <td style={{ textAlign: "right" }}>{p.withdrawToAddress && (<button onClick={withdraw}>Withdraw to Owner</button>)}</td>
-        <td>{p.withdrawToAddress && (<input id="withdrawAmount" defaultValue={balance?.toString()}></input>)}</td>
+        <td style={{ textAlign: "right" }}>{p.withdrawToAddress && (<button onClick={() => { withdraw() }}>Withdraw to Owner</button>)}</td>
+        <td>{p.withdrawToAddress && (<input id={"amt" + p.tokenAddress} defaultValue={balance?.toString()}></input>)}</td>
     </tr>
 }
 
