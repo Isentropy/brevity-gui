@@ -1,6 +1,9 @@
-Copyright (c) 2024, 2025 Isentropy LLC. All Rights Reserved
+Copyright (c) 2024, 2025 Isentropy LLC
 
-NOT LICENSED
+#### Please Note
+
+Use at your own risk. We welcome code review and design comments. Note that the [LICENSE](LICENSE) limits commerical use. For commercial inquires, please email info@isentropy.com. 
+
 
 ## Legal
 
