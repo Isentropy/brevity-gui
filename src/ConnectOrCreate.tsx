@@ -16,8 +16,10 @@ function ConnectOrCreate(p: Props) {
         const factory = new OwnedBrevityInterpreter__factory(p.signer)
         factory.deploy(owner).then((ctr) => {
             ctr.waitForDeployment().then(()=>{
-                ctr.getAddress().then((address) => {    
-                    window.location.search = `?${QUERY_PARAM_BREVITY_ADDRESS}=` + address
+                ctr.getAddress().then((address) => {  
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set(QUERY_PARAM_BREVITY_ADDRESS, address)
+                    window.location.search = '?'+urlParams.toString()
                 })
             })
         })
