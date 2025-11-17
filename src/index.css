@@ -8,6 +8,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color:rgb(187, 252, 230);
 }
+
+.stepsCompose {
+  background-color: rgb(225, 255, 245)
+}
+
 a {
   text-decoration: none;
 }
