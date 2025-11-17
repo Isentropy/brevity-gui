@@ -52,7 +52,7 @@ function Runner(p: Props) {
 
 
     // refresh script when step received or deleted
-    
+
     const refreshScriptFromSteps = () => {
         console.log(`refresh ${steps.length} steps`)
         const bs = document.getElementById("brevScript")! as HTMLTextAreaElement
@@ -61,7 +61,7 @@ function Runner(p: Props) {
         }).join(`\nclearMemStack\nclearParams\n`)
         bs.value = toBrevity(ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))) + '\n\n' + fullScript
     }
-    
+
 
     const receiveStep = (step: Step) => {
         setSteps([...steps, step])
@@ -70,7 +70,7 @@ function Runner(p: Props) {
     }
     const rmStep = (index: number) => {
         console.log(`rmStep ${index}`)
-        setSteps(steps.slice(0, index).concat(index == steps.length - 1 ? [] : steps.slice(index+1)))
+        setSteps(steps.slice(0, index).concat(index == steps.length - 1 ? [] : steps.slice(index + 1)))
     }
 
     const reset = async () => {
@@ -109,22 +109,22 @@ function Runner(p: Props) {
         <div className="brevityRunner">
             <Tabs>
                 <TabList>
-                    <Tab><b>Step Compose</b></Tab>
-                    <Tab><b>Brevity Code</b></Tab>
+                    <Tab><b>Step Compose View</b></Tab>
+                    <Tab><b>Brevity Code View</b></Tab>
                 </TabList>
                 <TabPanel>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ height: 500, overflowY: 'auto' }}>
                         <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
                         <br></br>
+                        <h3>Workflow</h3>
+                        <StepsList steps={steps} rmStep={rmStep}></StepsList>
                     </div>
-                    <h3>Workflow</h3>
-                    <StepsList steps={steps} rmStep={rmStep}></StepsList>
                 </TabPanel>
                 <TabPanel forceRender>
                     <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
                 </TabPanel>
             </Tabs>
-            <br></br>
+            <hr></hr>
             <button style={{ padding: 10, margin: 10 }} onClick={reset}>
                 Reset
             </button>
