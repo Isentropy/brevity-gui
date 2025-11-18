@@ -6,24 +6,33 @@ body {
   font-size: 16pt;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:rgb(187, 252, 230);
+  /*    color: #ffffff;*/
+    background-color: #ffffff;
+
+  background-color:rgb(213, 248, 236);
 }
 
 .stepsCompose {
-  background-color: rgb(225, 255, 245)
+  background-color:#ffffff
+
 }
 
 a {
   text-decoration: none;
 }
+
+table {
+}
+/*
 tr:nth-child(odd) {
-  background-color: #f2f2f2; /* Light gray background */
+  background-color: #f2f2f2; 
+}
+  */
+
+tr:nth-child(even) {
+  background-color:rgb(154, 240, 240) 
 }
 
-/* Styles for even-numbered rows */
-tr:nth-child(even) {
-  background-color: #ffffff; /* White background */
-}
 
 tab {
   font-style: bold;

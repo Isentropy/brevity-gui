@@ -38,7 +38,8 @@ function ScriptSelector(p: Props) {
 
     return (
         <div>
-            <label><b>Select Action: </b></label><select onChange={changeHandler} className="scriptSelector">
+            <h4>Select Action: </h4>
+            <select onChange={changeHandler} className="scriptSelector" size={4}>
                 {p.scripts.map((sd, index) => {
                     return <option>{sd.desc}</option>
                 })}
@@ -46,7 +47,7 @@ function ScriptSelector(p: Props) {
 
             <div style={{ display: "flex" }}>
                 <div>
-                    {script?.inputs && <h4>Input Params</h4>}
+                    {script?.inputs && <h4>Input Params:</h4>}
                     <table>
                         {script?.inputs &&
                             (script.inputs.map((inputParam, index) => {

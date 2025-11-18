@@ -113,11 +113,15 @@ function Runner(p: Props) {
                     <Tab><b>Brevity Code View</b></Tab>
                 </TabList>
                 <TabPanel>
-                    <div className="stepsCompose" style={{ height: 500, overflowY: 'auto'}}>
-                        <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
-                        <br></br>
-                        <h3>Workflow</h3>
-                        <StepsList steps={steps} rmStep={rmStep}></StepsList>
+                    <div  style={{ height: 500, overflowY: 'auto'}}>
+                        <div className="stepsCompose" style={{float: 'left', width:"38%", height:"100%"}}>
+                            <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
+                        </div>
+
+                        <div style={{height: 500, padding: 10, borderLeft: '2px solid black', float: 'right', width:"60%"}}>
+                            <h3>  Workflow</h3>
+                            <StepsList steps={steps} rmStep={rmStep}></StepsList>
+                        </div>
                     </div>
                 </TabPanel>
                 <TabPanel forceRender>
