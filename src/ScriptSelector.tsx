@@ -39,7 +39,7 @@ function ScriptSelector(p: Props) {
     return (
         <div>
             <h4>Select Action: </h4>
-            <select onChange={changeHandler} className="scriptSelector" size={4}>
+            <select onChange={changeHandler} className="scriptSelector" size={p.optionsLength}>
                 {p.scripts.map((sd, index) => {
                     return <option>{sd.desc}</option>
                 })}
