@@ -32,12 +32,6 @@ function BrevityInterpreterStats(interpreter: OwnedBrevityInterpreter, chainId: 
       })
   })
   return <div className="brevityStats">
-    <h3>Brevity Interpreter Info:</h3>
-    {address && (
-      <div>
-        Address: {BlockExplorerLink(address, chainId)}
-      </div>
-    )}
     {version?.toString() && (
       <div>
         Brevity Version: {version.toString()}

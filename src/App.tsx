@@ -43,18 +43,13 @@ function App() {
 
   return (
     <div className="brevityGui">
-      <h3> <a href="https://github.com/Isentropy/brevity">Brevity</a> Demo. Use at your own risk! See <a href='https://github.com/Isentropy/brevity/blob/master/LICENSE'>Brevity license</a>.</h3>
-      <button style={{ padding: 10, margin: 10 }} onClick={connect}>
+      <div style={{display: 'flex', flexDirection:"row"}}>
+
+      <h3> <a href="https://github.com/Isentropy/brevity">Brevity</a> Demo. Use at your own risk! See <a href='https://github.com/Isentropy/brevity/blob/master/LICENSE'>Brevity license</a>.</h3><button style={{ padding: 10, margin: 10 }} onClick={connect}>
         Connect MetaMask
       </button>
+      </div>
       <br></br>
-
-      {account && (
-        <div>
-          <p></p>
-          Connected to MetaMask with wallet: {BlockExplorerLink(account, chainId)} on chainId {chainId}
-        </div>
-      )}
       { account && interpreterAddress && chainId && signer && deployed &&
         <Interpreter interpreterAddress={interpreterAddress} signer={signer} chainId={chainId} account={account}></Interpreter>
       }

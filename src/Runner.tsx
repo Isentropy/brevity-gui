@@ -7,6 +7,7 @@ import 'react-tabs/style/react-tabs.css';
 import ScriptSelector from "./ScriptSelector";
 import StepsList from "./StepsList";
 import { toBeHex } from "ethers";
+import BrevityInterpreterStats from "./BrevityInterpreterStats";
 interface Props {
     interpreter: OwnedBrevityInterpreter
     account?: string
@@ -75,6 +76,7 @@ function Runner(p: Props) {
 
     const reset = async () => {
         setSteps([])
+        setCompileErr('')
         //refreshScriptFromSteps()
     }
 
@@ -111,11 +113,13 @@ function Runner(p: Props) {
                 <TabList>
                     <Tab><b>Step Compose View</b></Tab>
                     <Tab><b>Brevity Code View</b></Tab>
+                    <Tab><b>Interpreter Info</b></Tab>
+                    
                 </TabList>
                 <TabPanel>
                     <div  style={{ height: 500, overflowY: 'auto'}}>
                         <div className="stepsCompose" style={{float: 'left', width:"38%", height:"100%"}}>
-                            <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={10}></ScriptSelector>
+                            <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={4}></ScriptSelector>
                         </div>
 
                         <div style={{height: 500, padding: 10, borderLeft: '2px solid black', float: 'right', width:"60%"}}>
@@ -127,6 +131,9 @@ function Runner(p: Props) {
                 <TabPanel forceRender>
                     <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
                 </TabPanel>
+                <TabPanel>
+                    {BrevityInterpreterStats(p.interpreter, p.chainId)}                
+                </TabPanel>
             </Tabs>
             <hr></hr>
             <button style={{ padding: 10, margin: 10 }} onClick={reset}>
@@ -136,7 +143,7 @@ function Runner(p: Props) {
                 Compile
             </button>
             <button disabled={p.account && compiledProgram ? false : true} style={{ padding: 10, margin: 10 }} onClick={sendTx}>
-                Send TX
+                Run Script
             </button>
             {compiledProgram ? `Gas Estimate: ${gasEstimate}` : ""}
             <h3>Error Console: </h3>
