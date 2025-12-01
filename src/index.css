@@ -7,18 +7,27 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /*    color: #ffffff;*/
-    background-color: #ffffff;
-
-  background-color:rgb(213, 248, 236);
+  color: #ffffff;
+  background-color: #242430
 }
 
 .stepsCompose {
-  background-color:rgb(239, 255, 249);
+  color: white;
+  background-color:#242430
+
+}
+
+select {
+  color:white;
+  background-color:#242430;
+  font-size: 16pt;
+
 
 }
 
 a {
   text-decoration: none;
+  color:#60a7ff;
 }
 
 table {
@@ -29,10 +38,12 @@ tr:nth-child(odd) {
 }
   */
 
+/*
 tr:nth-child(even) {
-  background-color:rgb(212, 212, 212) 
+  background-color:#646484 
 }
 
+*/
 
 tab {
   font-style: bold;
@@ -40,26 +51,30 @@ tab {
 
 input {
   font-size: 16pt;
+  color: white;
+  background-color:#5f5f80;
+  text-align: right;
 }
 
 textarea {
   font-size: 16pt;
   columns: 5cm;
+  color: rgb(55, 239, 55);
+  background-color: black;
 }
 
 label {
   font-style: bold;
 }
 
-select {
-  font-size: 16pt;
-
-}
 
 button {
   border-radius: 10px;
   padding: 10;
   margin: 10;
+    color: #ffffff;
+  background-color: #6565ab
+
 }
 
 code {

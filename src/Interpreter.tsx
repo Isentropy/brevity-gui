@@ -48,7 +48,9 @@ function Interpreter(p: Props) {
         }
     }
     return <div>
-        Connected to interpreter {BlockExplorerLink(p.interpreterAddress, p.chainId)} as {BlockExplorerLink(p.account, p.chainId)} ({owner?.toLowerCase() == p.account.toLowerCase() ? "OWNER" : "NOT OWNER"})
+        Connnected wallet: {BlockExplorerLink(p.account, p.chainId)} ({owner?.toLowerCase() == p.account.toLowerCase() ? "OWNER" : "NOT OWNER"})
+        <br></br>
+        Connected to Brevity Interpreter: {BlockExplorerLink(p.interpreterAddress, p.chainId)}
         <button style={{ padding: 10, margin: 10 }} disabled={ADDRESSES_BYCHAINID.get(toBeHex(p.chainId, 32))?.CLONE_FACTORY ? false : true} onClick={clone}>Clone</button>
         <br></br>
         <Runner interpreter={interpreter} account={p.account}  chainId={p.chainId}></Runner>
