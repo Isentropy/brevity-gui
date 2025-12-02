@@ -43,6 +43,7 @@ function App() {
 
   return (
     <div className="brevityGui">
+      <a href="https://isentropy.com"><img src="assets/isentropy-logo-color.png" style={{ width: "15%", height: "15%" }} /></a>
       <div style={{display: 'flex', flexDirection:"row"}}>
 
       <h3> <a href="https://github.com/Isentropy/brevity">Brevity</a> Demo. Use at your own risk! See <a href='https://github.com/Isentropy/brevity/blob/master/LICENSE'>Brevity license</a>.</h3><button style={{ padding: 10, margin: 10 }} onClick={connect}>

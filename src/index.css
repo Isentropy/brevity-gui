@@ -27,7 +27,11 @@ select {
 
 a {
   text-decoration: none;
-  color:#60a7ff;
+  color:#abd1ff;
+}
+
+.mytabs {
+  background-color: #6565ab;
 }
 
 table {
@@ -69,6 +73,7 @@ label {
 
 
 button {
+  font-size: 16pt;
   border-radius: 10px;
   padding: 10;
   margin: 10;

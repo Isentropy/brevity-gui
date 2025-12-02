@@ -8,6 +8,7 @@ import ScriptSelector from "./ScriptSelector";
 import StepsList from "./StepsList";
 import { toBeHex } from "ethers";
 import BrevityInterpreterStats from "./BrevityInterpreterStats";
+import TokenHoldings from "./TokenHoldings";
 interface Props {
     interpreter: OwnedBrevityInterpreter
     account?: string
@@ -109,20 +110,20 @@ function Runner(p: Props) {
 
     return (
         <div className="brevityRunner">
-            <Tabs>
+            <Tabs >
                 <TabList>
-                    <Tab><b>Step Compose View</b></Tab>
-                    <Tab><b>Brevity Code View</b></Tab>
+                    <Tab><b>Step Compose</b></Tab>
+                    <Tab><b>Brevity Code</b></Tab>
+                    <Tab><b>Token Holdings</b></Tab>
                     <Tab><b>Interpreter Info</b></Tab>
-                    
                 </TabList>
                 <TabPanel>
-                    <div  style={{ height: 500, overflowY: 'auto'}}>
-                        <div className="stepsCompose" style={{float: 'left', width:"38%", height:"100%"}}>
+                    <div style={{ height: 500, overflowY: 'auto' }}>
+                        <div className="stepsCompose" style={{ float: 'left', width: "38%", height: "100%" }}>
                             <ScriptSelector stderr={setCompileErr} outputStep={receiveStep} scripts={scriptsFromChainId(p.chainId)} optionsLength={4}></ScriptSelector>
                         </div>
 
-                        <div style={{height: 500, padding: 10, borderLeft: '2px solid black', float: 'right', width:"60%"}}>
+                        <div style={{ height: 500, padding: 10, borderLeft: '2px solid white', float: 'right', width: "60%" }}>
                             <h3>  Workflow</h3>
                             <StepsList steps={steps} rmStep={rmStep}></StepsList>
                         </div>
@@ -132,8 +133,16 @@ function Runner(p: Props) {
                     <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
                 </TabPanel>
                 <TabPanel>
-                    {BrevityInterpreterStats(p.interpreter, p.chainId)}                
+                    <div style={{ height: 500, overflowY: 'auto' }}>
+                        {TokenHoldings(p.interpreter, p.chainId)}
+                    </div>
                 </TabPanel>
+                <TabPanel>
+                    <div style={{ height: 500, overflowY: 'auto' }}>
+                        {BrevityInterpreterStats(p.interpreter, p.chainId)}
+                    </div>
+                </TabPanel>
+
             </Tabs>
             <hr></hr>
             <button style={{ padding: 10, margin: 10 }} onClick={reset}>

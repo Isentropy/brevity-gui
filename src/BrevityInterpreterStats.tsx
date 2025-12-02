@@ -8,7 +8,7 @@ function BrevityInterpreterStats(interpreter: OwnedBrevityInterpreter, chainId: 
   const [address, setAddress] = useState<string>();
   const [version, setVersion] = useState<bigint>();
   const [owner, setOwner] = useState<string>();
-  const [uniqueTokens, setUniqueTokens] = useState<string[]>();
+//  const [uniqueTokens, setUniqueTokens] = useState<string[]>();
 
   if (!version) interpreter.version().then((v) => {
     setVersion(v)
@@ -18,18 +18,6 @@ function BrevityInterpreterStats(interpreter: OwnedBrevityInterpreter, chainId: 
   })
   if (!address) interpreter.getAddress().then((a) => {
     setAddress(a)
-
-    const filter: Filter = {
-      fromBlock: 0,
-      toBlock: 'latest',
-      topics: [id('Transfer(address,address,uint256)'), null, toBeHex(a, 32)]
-    }
-    console.log(`filter ${JSON.stringify(filter)}`)
-    if (!uniqueTokens)
-      interpreter.runner!.provider!.getLogs(filter).then((logs) => {
-        console.log(`logs ${logs.length}`)
-        setUniqueTokens([ZeroAddress, ...new Set(logs.map((log) => { return log.address }))])
-      })
   })
   return <div className="brevityStats">
     {version?.toString() && (
@@ -42,35 +30,6 @@ function BrevityInterpreterStats(interpreter: OwnedBrevityInterpreter, chainId: 
         Owner: {BlockExplorerLink(owner, chainId)}
       </div>
     )}
-    <h3>Token Holdings:</h3>
-    <table>
-      <tbody>
-        <tr>
-          <th>
-            Token Address
-          </th>
-          <th>
-            Symbol
-          </th>
-          <th>
-            Balance
-          </th>
-          <th>
-            Withdraw To Owner
-          </th>
-          <th>
-            Withdraw Amount (wei)
-          </th>
-        </tr>
-        {uniqueTokens && address && interpreter && (
-          uniqueTokens.map((tokenAddress) => {
-            return <TokenBalance tokenAddress={tokenAddress} chainId={chainId} holderAddress={address} interpreter={interpreter} withdrawToAddress={owner}></TokenBalance>
-          })
-        )}
-      </tbody>
-    </table>
-
-
   </div>
 }
 
