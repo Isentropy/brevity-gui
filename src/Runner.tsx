@@ -112,11 +112,14 @@ function Runner(p: Props) {
         <div className="brevityRunner">
             <Tabs >
                 <TabList>
-                    <Tab><b>Step Compose</b></Tab>
                     <Tab><b>Brevity Code</b></Tab>
+                    <Tab><b>Step Compose</b></Tab>
                     <Tab><b>Token Holdings</b></Tab>
                     <Tab><b>Interpreter Info</b></Tab>
                 </TabList>
+                <TabPanel forceRender>
+                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
+                </TabPanel>
                 <TabPanel>
                     <div style={{ height: 500, overflowY: 'auto' }}>
                         <div className="stepsCompose" style={{ float: 'left', width: "38%", height: "100%" }}>
@@ -128,9 +131,6 @@ function Runner(p: Props) {
                             <StepsList steps={steps} rmStep={rmStep}></StepsList>
                         </div>
                     </div>
-                </TabPanel>
-                <TabPanel forceRender>
-                    <textarea id="brevScript" spellCheck={false} cols={80} rows={20}></textarea>
                 </TabPanel>
                 <TabPanel>
                     <div style={{ height: 500, overflowY: 'auto' }}>
