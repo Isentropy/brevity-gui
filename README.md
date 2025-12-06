@@ -15,3 +15,5 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 ## Compose with Steps
 
 The GUI showcases a graphical step composition tool that makes it easy to write workflows without specific knowledge of [Brevity](https://github.com/Isentropy/brevity) language. Steps in the Compose tab generate Brevity code in the Code tab.
+
+<img width="3684" height="2087" alt="image" src="https://github.com/user-attachments/assets/c278dcfe-b393-480f-a349-9b4a5ef3dfdd" />
